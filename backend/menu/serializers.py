@@ -61,15 +61,7 @@ class DailyMenuSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "created_at", "updated_at"]
 
     def get_is_order_open(self, obj):
-        from django.conf import settings
-
-        now = timezone.localtime()
-        if obj.date != now.date():
-            return False
-        cutoff = obj.cutoff_time or now.replace(
-            hour=settings.ORDER_CUTOFF_HOUR, minute=0, second=0, microsecond=0
-        ).time()
-        return now.time() < cutoff
+        return True
 
 
 class DailyMenuCreateUpdateSerializer(serializers.ModelSerializer):
