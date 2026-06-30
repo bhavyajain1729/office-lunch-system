@@ -11,42 +11,96 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-      <Link to="/" className="text-lg font-bold text-primary">
-        🍱 Office Lunch
-      </Link>
+    <nav className="sticky top-0 z-50 bg-white shadow-md border-b">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center justify-between h-16">
 
-      <div className="flex items-center gap-4 text-sm">
-        {isAuthenticated && !isAdmin && (
-          <>
-            <Link to="/menu" className="hover:text-primary">Menu</Link>
-            <Link to="/orders" className="hover:text-primary">My Orders</Link>
-          </>
-        )}
-        {isAuthenticated && isAdmin && (
-          <>
-            <Link to="/admin" className="hover:text-primary">Dashboard</Link>
-            <Link to="/admin/menu" className="hover:text-primary">Menu Management</Link>
-            <Link to="/admin/orders" className="hover:text-primary">Order Management</Link>
-          </>
-        )}
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-2xl font-bold text-blue-600"
+          >
+            🍱 Office Lunch
+          </Link>
 
-        {isAuthenticated ? (
-          <div className="flex items-center gap-3">
-            <span className="text-gray-600">{user?.full_name}</span>
-            <button
-              onClick={handleLogout}
-              className="bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded text-gray-700"
-            >
-              Logout
-            </button>
+          <div className="flex items-center gap-6">
+
+            {isAuthenticated && !isAdmin && (
+              <>
+                <Link
+                  to="/menu"
+                  className="font-medium text-slate-700 hover:text-blue-600 transition"
+                >
+                  Menu
+                </Link>
+
+                <Link
+                  to="/orders"
+                  className="font-medium text-slate-700 hover:text-blue-600 transition"
+                >
+                  My Orders
+                </Link>
+              </>
+            )}
+
+            {isAuthenticated && isAdmin && (
+              <>
+                <Link
+                  to="/admin"
+                  className="font-medium text-slate-700 hover:text-blue-600 transition"
+                >
+                  Dashboard
+                </Link>
+
+                <Link
+                  to="/admin/menu"
+                  className="font-medium text-slate-700 hover:text-blue-600 transition"
+                >
+                  Menu
+                </Link>
+
+                <Link
+                  to="/admin/orders"
+                  className="font-medium text-slate-700 hover:text-blue-600 transition"
+                >
+                  Orders
+                </Link>
+              </>
+            )}
+
+            {isAuthenticated ? (
+              <div className="flex items-center gap-4">
+                <div className="hidden md:block text-sm">
+                  <p className="font-semibold text-slate-800">
+                    {user?.full_name}
+                  </p>
+                </div>
+
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Link
+                  to="/login"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                >
+                  Employee Login
+                </Link>
+
+                <Link
+                  to="/admin/login"
+                  className="border border-slate-300 px-4 py-2 rounded-lg hover:bg-slate-100 transition"
+                >
+                  Admin Login
+                </Link>
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="flex items-center gap-3">
-            <Link to="/login" className="hover:text-primary">Employee Login</Link>
-            <Link to="/admin/login" className="hover:text-primary">Admin Login</Link>
-          </div>
-        )}
+        </div>
       </div>
     </nav>
   );

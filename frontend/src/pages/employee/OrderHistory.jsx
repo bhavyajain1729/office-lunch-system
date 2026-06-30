@@ -14,34 +14,103 @@ export default function OrderHistory() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p className="text-center mt-10 text-gray-500">Loading orders...</p>;
-  if (error) return <p className="text-center mt-10 text-red-600">{error}</p>;
+  if (loading) {
+    return (
+      <div className="p-10 text-center">
+        Loading orders...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-4xl mx-auto p-6">
+        <div className="bg-red-100 text-red-700 rounded-xl p-4">
+          {error}
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-3xl mx-auto mt-6 px-4">
-      <h1 className="text-xl font-bold mb-4">My Orders</h1>
+    <div className="max-w-6xl mx-auto p-6">
+
+      <h1 className="text-4xl font-bold text-slate-800 mb-8">
+        My Orders
+      </h1>
 
       {orders.length === 0 ? (
-        <p className="text-gray-500">You haven't placed any orders yet.</p>
+        <div className="bg-white rounded-2xl shadow p-10 text-center">
+          <div className="text-6xl mb-4">🍱</div>
+          <p className="text-slate-500">
+            You haven't placed any orders yet.
+          </p>
+        </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-6">
           {orders.map((order) => (
-            <div key={order.id} className="bg-white border border-gray-200 rounded p-4">
-              <div className="flex justify-between items-start">
+            <div
+              key={order.id}
+              className="bg-white rounded-2xl shadow-lg p-6 border"
+            >
+              <div className="flex flex-wrap justify-between gap-4">
+
                 <div>
-                  <p className="font-semibold">Order #{order.id} — {order.order_date}</p>
-                  <p className="text-sm text-gray-500">
-                    {order.items.map((i) => `${i.item_name} ×${i.quantity}`).join(", ")}
+                  <h2 className="font-bold text-xl">
+                    Order #{order.id}
+                  </h2>
+
+                  <p className="text-slate-500">
+                    {order.order_date}
                   </p>
                 </div>
+
                 <StatusBadge status={order.status} />
               </div>
-              <div className="flex justify-between items-center mt-2 text-sm">
-                <span>Total: ₹{Number(order.total_amount).toFixed(2)}</span>
-                {order.utr_number && <span className="text-gray-500">UTR: {order.utr_number}</span>}
+
+              <div className="mt-4">
+                <h3 className="font-semibold mb-2">
+                  Items
+                </h3>
+
+                <div className="space-y-2">
+                  {order.items.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex justify-between border-b pb-2"
+                    >
+                      <span>
+                        {item.item_name} × {item.quantity}
+                      </span>
+
+                      <span>
+                        ₹
+                        {(
+                          item.unit_price * item.quantity
+                        ).toFixed(2)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
+
+              <div className="mt-4 flex justify-between font-bold text-lg">
+                <span>Total</span>
+                <span>
+                  ₹{Number(order.total_amount).toFixed(2)}
+                </span>
+              </div>
+
+              {order.utr_number && (
+                <div className="mt-4 text-sm text-slate-600">
+                  UTR: ******{order.utr_number.slice(-4)}
+                </div>
+              )}
+
               {order.admin_remarks && (
-                <p className="text-xs text-gray-500 mt-1">Admin note: {order.admin_remarks}</p>
+                <div className="mt-4 bg-yellow-100 text-yellow-800 rounded-lg p-3">
+                  Admin Note: {order.admin_remarks}
+                </div>
               )}
             </div>
           ))}
