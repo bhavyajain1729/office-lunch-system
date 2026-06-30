@@ -51,27 +51,24 @@ class CheckoutSerializer(serializers.Serializer):
             raise serializers.ValidationError("Cannot place an order for a past date.")
         return value
 
+
     def validate(self, attrs):
         from menu.models import DailyMenu
 
         order_date = attrs["order_date"]
-        daily_menu = DailyMenu.objects.filter(date=order_date, is_published=True).first()
+
+        daily_menu = DailyMenu.objects.filter(
+            date=order_date,
+            is_published=True
+        ).first()
+
         if not daily_menu:
             raise serializers.ValidationError(
                 {"order_date": "No published menu is available for this date."}
             )
 
-        if order_date == timezone.localdate():
-            now = timezone.localtime()
-            cutoff = daily_menu.cutoff_time or now.replace(
-                hour=settings.ORDER_CUTOFF_HOUR, minute=0, second=0, microsecond=0
-            ).time()
-            if now.time() >= cutoff:
-                raise serializers.ValidationError(
-                    {"order_date": f"Ordering for today closed at {cutoff.strftime('%H:%M')}."}
-                )
-
         resolved_lines = []
+
         menu_item_ids = [i["menu_item_id"] for i in attrs["items"]]
         listings = {
             dmi.menu_item_id: dmi
