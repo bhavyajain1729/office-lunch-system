@@ -1,7 +1,7 @@
 """
 Django settings for the Office Lunch Ordering System.
 """
-
+import cloudinary
 import os
 from datetime import timedelta
 from pathlib import Path
@@ -40,6 +40,8 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     "django_filters",
+    "cloudinary_storage",
+    "cloudinary",
 ]
 
 LOCAL_APPS = [
@@ -123,8 +125,14 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+
+cloudinary.config(
+    cloud_name=env("CLOUDINARY_CLOUD_NAME"),
+    api_key=env("CLOUDINARY_API_KEY"),
+    api_secret=env("CLOUDINARY_API_SECRET"),
+)
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
