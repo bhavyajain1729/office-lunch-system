@@ -80,7 +80,7 @@ class DailyMenuCreateUpdateSerializer(serializers.ModelSerializer):
     {
       "date": "2026-07-01",
       "is_published": true,
-      "cutoff_time": "11:00:00",
+      "cutoff_time": "1:00:00",
       "notes": "Special Monday lineup",
       "items": [
         {"menu_item_id": 3, "price_override": 90.00, "quantity_available": 40},
