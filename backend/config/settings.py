@@ -187,7 +187,7 @@ CSRF_TRUSTED_ORIGINS = [
 # UPI ID shown to employees alongside the static QR code at checkout.
 COMPANY_UPI_ID = env("COMPANY_UPI_ID", default="officecanteen@upi")
 # Cut-off hour (24h, IST) after which an employee can no longer order for "today".
-ORDER_CUTOFF_HOUR = env.int("ORDER_CUTOFF_HOUR", default=11)
+ORDER_CUTOFF_HOUR = env.int("ORDER_CUTOFF_HOUR", default=23)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

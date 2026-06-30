@@ -33,7 +33,7 @@ services:
       CORS_ALLOWED_ORIGINS: http://localhost:5173,http://localhost:3000
       TIME_ZONE: Asia/Kolkata
       COMPANY_UPI_ID: officecanteen@upi
-      ORDER_CUTOFF_HOUR: "11"
+      ORDER_CUTOFF_HOUR: "23"
     volumes:
       - media_data:/app/media
     ports:
