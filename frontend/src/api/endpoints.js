@@ -4,8 +4,19 @@ import api from "./client";
 export const registerEmployee = (data) => api.post("/auth/register/", data);
 export const loginEmployee = (data) => api.post("/auth/login/employee/", data);
 export const loginAdmin = (data) => api.post("/auth/login/admin/", data);
-export const logout = (refresh) => api.post("/auth/logout/", { refresh });
+export const logout = (refresh, sessionId) => 
+  api.post("/auth/logout/", { refresh, session_id: sessionId });
 export const getProfile = () => api.get("/auth/profile/");
+export const getCurrentUser = () => api.get("/auth/me/");
+
+// --- Session Management ---
+export const getSessions = () => api.get("/auth/sessions/");
+export const terminateSession = (sessionId, reason) =>
+  api.post(`/auth/sessions/${sessionId}/terminate/`, { reason });
+export const terminateAllOtherSessions = (currentSessionId) =>
+  api.post("/auth/sessions/terminate-all-others/", { current_session_id: currentSessionId });
+export const validateSession = (sessionId) =>
+  api.get("/auth/validate-session/", { params: { session_id: sessionId } });
 
 // --- Menu (employee) ---
 export const getTodayMenu = () => api.get("/menu/today/");
